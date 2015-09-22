@@ -38,3 +38,5 @@ Python/PCI/.idea/PCI.iml
 Python/PCI/collaborativeFiltering.pyc
 
 Python/PCI/collaborativeFiltering.pyc
+
+*.pyc
