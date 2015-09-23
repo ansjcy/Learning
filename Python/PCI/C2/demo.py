@@ -26,5 +26,9 @@ res = [(val/0.5,key) for key,val in set.items()]
 res.sort()
 print(res)
 
+haha = {}
+haha[(1,2)] = 2
+print(haha)
+
 
 
