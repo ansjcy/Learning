@@ -11,10 +11,15 @@ np = hdp.np
 
 def parse_args():
   parser = OptionParser()
-  parser.set_defaults(T=300, K=20, D=-1, W=-1, eta=0.01, alpha=1.0, gamma=1.0,
-                      max_time=100, max_iter=-1, var_converge=0.0001, random_seed=999931111, 
-                      corpus_name=None, data_path=None, test_data_path=None, 
+  parser.set_defaults(T=300, K=20, D=1, W=10, eta=0.01, alpha=1.0, gamma=1.0,
+                      max_time=100, max_iter=2, var_converge=0.0001, random_seed=999931111,
+                      corpus_name=None, data_path="/Users/jason/GitHub/Learning/Python/TestHDP/onlinehdp/mydata", test_data_path="/Users/jason/GitHub/Learning/Python/TestHDP/onlinehdp/mydata",
                       test_data_path_in_folds=None, directory=None)
+
+  # parser.set_defaults(T=300, K=20, D=-1, W=-1, eta=0.01, alpha=1.0, gamma=1.0,
+  #                     max_time=100, max_iter=-1, var_converge=0.0001, random_seed=999931111,
+  #                     corpus_name=None, data_path="/Users/jason/GitHub/Learning/Python/TestHDP/onlinehdp/mytest", test_data_path="/Users/jason/GitHub/Learning/Python/TestHDP/onlinehdp/mydata",
+  #                     test_data_path_in_folds=None, directory=None)
 
   parser.add_option("--T", type="int", dest="T",
                     help="top level truncation [300]")
