@@ -36,6 +36,11 @@ class DirichletProcessSample():
             return None
 #lambda and stuff: is used to a function that generate samples..
 #prove that sampling from norm distribution is unique..
+################################
+#Because I set α=10 (which is relatively small), the approximation
+# is fairly course. In terms of memoization, a small α value means
+# the stochastic memoizer will more frequently reuse values already
+# seen instead of drawing new ones.
 ###############################
 base_measure = lambda: norm().rvs()
 ndraws = 10000
@@ -48,7 +53,11 @@ print("Number of unique samples after {} draws:".format(ndraws))
 dp_draws = Series([norm_dp() for _ in range(ndraws)])
 print(dp_draws.unique().size)
 #################################
-norm_hdp = DirichletProcessSample(norm_dp, alpha=10) #samples..
 Series(norm_dp() for _ in range(10000)).hist()
 _=plt.title("Histogram of Samples from norm_dp")
+plt.show()
+################################
+norm_hdp = DirichletProcessSample(norm_dp, alpha=10) #samples..
+Series(norm_hdp() for _ in range(10000)).hist()
+_=plt.title("Histogram of Samples from norm_hdp")
 plt.show()
