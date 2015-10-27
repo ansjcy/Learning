@@ -40,3 +40,9 @@ Python/PCI/collaborativeFiltering.pyc
 Python/PCI/collaborativeFiltering.pyc
 
 *.pyc
+
+Python/neural_network/.idea/.name
+
+Python/neural_network/.idea/neural_network.iml
+
+Python/neural_network/demo.weights
