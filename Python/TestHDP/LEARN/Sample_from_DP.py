@@ -20,9 +20,9 @@ for scale in [0.1, 1, 10, 100, 1000]:
 def dirichlet_sample_approximation(base_measure, alpha, tol=0.01):
     betas = []
     pis = []
-    betas.append(beta(1, alpha).rvs())
+    betas.append(beta(1, alpha).rvs()) #sample from beta function(1, alpha)
     pis.append(betas[0])
-    while sum(pis) < (1.-tol):
+    while sum(pis) < (1.-tol):         #sum(pis) to infinity, we can get 1..
         s = np.sum([np.log(1 - b) for b in betas])
         new_beta = beta(1, alpha).rvs()
         betas.append(new_beta)
@@ -42,47 +42,47 @@ def plot_normal_dp_approximation(alpha):
     plt.plot(X, norm.pdf(X))
     plt.show()
 
-plot_normal_dp_approximation(.1)
-plot_normal_dp_approximation(1)
-plot_normal_dp_approximation(10)
-plot_normal_dp_approximation(1000)
+#plot_normal_dp_approximation(.1)
+# plot_normal_dp_approximation(1)
+# plot_normal_dp_approximation(10)
+# plot_normal_dp_approximation(1000)
 
 
 
-# class DirichletProcessSample():
-#     def __init__(self, base_measure, alpha):
-#         self.base_measure = base_measure
-#         self.alpha = alpha
-#
-#         self.cache = []
-#         self.weights = []
-#         self.total_stick_used = 0.
-#
-#     def __call__(self):
-#         remaining = 1.0 - self.total_stick_used
-#         i = DirichletProcessSample.roll_die(self.weights + [remaining])
-#         if i is not None and i < len(self.weights) :
-#             return self.cache[i]
-#         else:
-#             stick_piece = beta(1, self.alpha).rvs() * remaining
-#             self.total_stick_used += stick_piece
-#             self.weights.append(stick_piece)
-#             new_value = self.base_measure()
-#             self.cache.append(new_value)
-#             return new_value
-#
-#     @staticmethod
-#     def roll_die(weights):
-#         if weights:
-#             return choice(range(len(weights)), p=weights)
-#         else:
-#             return None
-#
-# base_measure = lambda: norm().rvs()
-# n_samples = 10000
-# samples = {}
-# for alpha in [1, 10, 100, 1000]:
-#     dirichlet_norm = DirichletProcessSample(base_measure=base_measure, alpha=alpha)
-#     samples["Alpha: %s" % alpha] = [dirichlet_norm() for _ in range(n_samples)]
-#
-# _ = pd.DataFrame(samples).hist()
+class DirichletProcessSample():
+    def __init__(self, base_measure, alpha):
+        self.base_measure = base_measure
+        self.alpha = alpha
+
+        self.cache = []
+        self.weights = []
+        self.total_stick_used = 0.
+
+    def __call__(self):
+        remaining = 1.0 - self.total_stick_used
+        i = DirichletProcessSample.roll_die(self.weights + [remaining])
+        if i is not None and i < len(self.weights) :
+            return self.cache[i]
+        else:
+            stick_piece = beta(1, self.alpha).rvs() * remaining
+            self.total_stick_used += stick_piece
+            self.weights.append(stick_piece)
+            new_value = self.base_measure()
+            self.cache.append(new_value)
+            return new_value
+
+    @staticmethod
+    def roll_die(weights):
+        if weights:
+            return choice(range(len(weights)), p=weights)
+        else:
+            return None
+
+base_measure = lambda: norm().rvs()
+n_samples = 10000
+samples = {}
+for alpha in [1, 10, 100, 1000]:
+    dirichlet_norm = DirichletProcessSample(base_measure=base_measure, alpha=alpha)
+    samples["Alpha: %s" % alpha] = [dirichlet_norm() for _ in range(n_samples)]
+
+_ = pd.DataFrame(samples).hist()
