@@ -48,7 +48,7 @@ def plot_normal_dp_approximation(alpha):
 # plot_normal_dp_approximation(1000)
 
 
-
+#return samples..
 class DirichletProcessSample():
     def __init__(self, base_measure, alpha):
         self.base_measure = base_measure
@@ -86,4 +86,6 @@ for alpha in [1, 10, 100, 1000]:
     dirichlet_norm = DirichletProcessSample(base_measure=base_measure, alpha=alpha)
     samples["Alpha: %s" % alpha] = [dirichlet_norm() for _ in range(n_samples)]
 
-_ = pd.DataFrame(samples).hist()
+_ = pd.DataFrame(samples).hist()  #hist: to a diagram..
+__ = plt.title("haha")
+plt.show()
