@@ -61,3 +61,12 @@ norm_hdp = DirichletProcessSample(norm_dp, alpha=10) #samples..
 Series(norm_hdp() for _ in range(10000)).hist()
 _=plt.title("Histogram of Samples from norm_hdp")
 plt.show()
+###############################
+#encapsulate the hdp..
+class HierarchicalDirichletProcessSample(DirichletProcessSample):
+    def __init__(self, base_measure, alpha1, alpha2):
+        first_level_dp = DirichletProcessSample(base_measure, alpha1)
+        self.second_level_dp = DirichletProcessSample(first_level_dp, alpha2)
+
+    def __call__(self):
+        return self.second_level_dp()
