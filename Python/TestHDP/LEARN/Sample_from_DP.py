@@ -78,6 +78,7 @@ class DirichletProcessSample():
         else:
             return None
 
+#lambda and stuff: is used to a function that generate samples..
 base_measure = lambda: norm().rvs()
 n_samples = 10000
 samples = {}
