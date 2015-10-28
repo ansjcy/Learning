@@ -3,10 +3,7 @@
 import math
 import random
 #import string
-try:
-    import cPickle as pickle
-except:
-    import pickle
+import pickle
 
 random.seed(0)
 
@@ -17,6 +14,7 @@ def rand(a, b):
 # our sigmoid function, tanh is a little nicer than the standard 1/(1+e^-x)
 def sigmoid(x):
     return math.tanh(x)
+    #return 1.0/(1.0+math.exp(-x))
 
 # derivative of our sigmoid function, in terms of the output (i.e. y)
 def dsigmoid(y):
@@ -153,7 +151,7 @@ def demo():
         [[1,0], [1]],
         [[1,1], [0]]
     ]
-
+    
     # create a network with two input, two hidden, and one output nodes
     n = BPNNet(2, 2, 1)
     # train it with some patterns
