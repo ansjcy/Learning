@@ -1,5 +1,4 @@
 # Back-Propagation Neural Networks
-
 import math
 import random
 #import string

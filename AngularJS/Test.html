@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+    <script src="angular.js"></script>
+</head>
+<body>
+<div ng-app="dd">
+
+    <p>在输入框中尝试输入：</p>
+    <p>姓名：<input type="text" ng-model="firstName"></p>
+    <p>你输入的为： {{ firstName }}</p>
+
+</div>
+<!--<div ng-app="demo">-->
+<!--Your name: <input type="text" ng-model="yourname" placeholder="ans">-->
+<!--<hr>-->
+<!--<p>Hello {{yourname || 'World'}}!</p>-->
+<!--<p ng-bind="yourname"></p>-->
+<!--<hr>-->
+<!--</div>-->
+<!--&lt;!&ndash;ng-init and ng-bind&ndash;&gt;-->
+<!--<div ng-app="test" ng-init="quantity = '1'; cost = '5' ">-->
+    <!--<p>total: {{quantity * cost}}</p>-->
+    <!--<span ng-bind="quantity * cost"></span>-->
+<!--</div>-->
+<!--<hr>-->
+<!--&lt;!&ndash;the object&ndash;&gt;-->
+<!--<div ng-init="person={aa:'fruit', bb:'bagel'}">-->
+    <!--<p>get name: {{person.bb}}</p>-->
+<!--</div>-->
+<!--<hr>-->
+<!--&lt;!&ndash;the arrays&ndash;&gt;-->
+<!--<div ng-init="array = [1,2,3]">-->
+    <!--<p>array:{{array[2]}}</p>-->
+<!--</div>-->
+<!--<hr>-->
+<!--&lt;!&ndash;repeat&ndash;&gt;-->
+<!--<div ng-init="names = ['jack', 'mary', 'ham', 'jane']">-->
+    <!--<ul>-->
+        <!--<li ng-repeat="x in names">-->
+            <!--name = {{x}}-->
+        <!--</li>-->
+    <!--</ul>-->
+<!--</div>-->
+<!--&lt;!&ndash;controller&ndash;&gt;-->
+<!--<div ng-app="test2" ng-controller="myCtrl">-->
+
+    <!--firstname: <input type="text" ng-model="firstName"><br>-->
+    <!--lastname: <input type="text" ng-model="lastName"><br>-->
+    <!--<br>-->
+    <!--name: {{firstName + " " + lastName}}-->
+    <!--<br>-->
+    <!--nameUsingController:{{fullname()}}-->
+
+<!--</div>-->
+<!--<script>-->
+    <!--var app = angular.module('myApp', []);-->
+    <!--app.controller('myCtrl', function($scope) {-->
+        <!--$scope.firstName= "John";-->
+        <!--$scope.lastName= "Doe";-->
+        <!--$scope.fullname = function(){-->
+            <!--return $scope.firstName + " " + $scope.lastName;-->
+        <!--}-->
+    <!--});-->
+<!--</script>-->
+<!--<hr>-->
+<!--&lt;!&ndash;################filter#################&ndash;&gt;-->
+<!--<div ng-controller="myCtrl">-->
+    <!--{{firstName|uppercase}}-->
+<!--</div>-->
+
+<!--<div ng-app="priceApp" ng-controller="priceCtrl">-->
+    <!--<input type="number" ng-model="quantity">-->
+    <!--<input type="number" ng-model="price">-->
+    <!--<p>{{quantity*price}}</p>-->
+<!--</div>-->
+<!--<script>-->
+    <!--var app = angular.module('priceApp', []);-->
+    <!--app.controller('priceCtrl', function($scope){-->
+        <!--$scope.quantity = 1;-->
+        <!--$scope.price = 2;-->
+    <!--});-->
+<!--</script>-->
+<!--#######################################-->
+</body>
+</html>
