@@ -4,83 +4,142 @@
     <script src="angular.js"></script>
 </head>
 <body>
-<div ng-app="dd">
 
-    <p>在输入框中尝试输入：</p>
-    <p>姓名：<input type="text" ng-model="firstName"></p>
-    <p>你输入的为： {{ firstName }}</p>
+<div ng-app="invoice3" ng-controller="InvoiceController as invoice">
+    <b>Invoice:</b>
+    <div>
+        Quantity: <input type="number" min="0" ng-model="invoice.qty" required>
+    </div>
+    <div>
+        Costs: <input type="number" min="0" ng-model="invoice.cost" required >
+        <select ng-model="invoice.inCurr">
+            <option ng-repeat="c in invoice.currencies">{{c}}</option>
+        </select>
+    </div>
+    <div>
+        <b>Total:</b>
+    <span ng-repeat="c in invoice.currencies">
+      {{invoice.total(c) | currency:c}}
+    </span>
+        <button class="btn" ng-click="invoice.pay()">Pay</button>
+    </div>
 
+
+    <div>
+        <!--<div ng-init="qty = 1; cost = 4">-->
+        <input type="number" min="0" ng-model="qty">
+        <input type="number" min="0" ng-model="cost">
+        total: {{invoice.qty * invoice.cost | currency}}
+    </div>
 </div>
-<!--<div ng-app="demo">-->
-<!--Your name: <input type="text" ng-model="yourname" placeholder="ans">-->
-<!--<hr>-->
-<!--<p>Hello {{yourname || 'World'}}!</p>-->
-<!--<p ng-bind="yourname"></p>-->
-<!--<hr>-->
-<!--</div>-->
-<!--&lt;!&ndash;ng-init and ng-bind&ndash;&gt;-->
-<!--<div ng-app="test" ng-init="quantity = '1'; cost = '5' ">-->
-    <!--<p>total: {{quantity * cost}}</p>-->
-    <!--<span ng-bind="quantity * cost"></span>-->
-<!--</div>-->
-<!--<hr>-->
-<!--&lt;!&ndash;the object&ndash;&gt;-->
-<!--<div ng-init="person={aa:'fruit', bb:'bagel'}">-->
-    <!--<p>get name: {{person.bb}}</p>-->
-<!--</div>-->
-<!--<hr>-->
-<!--&lt;!&ndash;the arrays&ndash;&gt;-->
-<!--<div ng-init="array = [1,2,3]">-->
-    <!--<p>array:{{array[2]}}</p>-->
-<!--</div>-->
-<!--<hr>-->
-<!--&lt;!&ndash;repeat&ndash;&gt;-->
-<!--<div ng-init="names = ['jack', 'mary', 'ham', 'jane']">-->
-    <!--<ul>-->
-        <!--<li ng-repeat="x in names">-->
-            <!--name = {{x}}-->
-        <!--</li>-->
-    <!--</ul>-->
-<!--</div>-->
-<!--&lt;!&ndash;controller&ndash;&gt;-->
-<!--<div ng-app="test2" ng-controller="myCtrl">-->
+<script>
+//"To use DI, there needs to be a place where all the things that should work together are registered. In Angular, this is the purpose of the modules.
+//The code snippet angular.module('invoice2', ['finance2']) specifies that the invoice2 module depends on the finance2 module. "
 
-    <!--firstname: <input type="text" ng-model="firstName"><br>-->
-    <!--lastname: <input type="text" ng-model="lastName"><br>-->
-    <!--<br>-->
-    <!--name: {{firstName + " " + lastName}}-->
-    <!--<br>-->
-    <!--nameUsingController:{{fullname()}}-->
+    angular.module('invoice2', ['finance2'])
+            .controller('InvoiceController', ['currencyConverter', function(currencyConverter) {
+                this.qty = 1;
+                this.cost = 2;
+                this.inCurr = 'EUR';
+                this.currencies = currencyConverter.currencies;
 
-<!--</div>-->
-<!--<script>-->
-    <!--var app = angular.module('myApp', []);-->
-    <!--app.controller('myCtrl', function($scope) {-->
-        <!--$scope.firstName= "John";-->
-        <!--$scope.lastName= "Doe";-->
-        <!--$scope.fullname = function(){-->
-            <!--return $scope.firstName + " " + $scope.lastName;-->
-        <!--}-->
-    <!--});-->
-<!--</script>-->
-<!--<hr>-->
-<!--&lt;!&ndash;################filter#################&ndash;&gt;-->
-<!--<div ng-controller="myCtrl">-->
-    <!--{{firstName|uppercase}}-->
-<!--</div>-->
+                this.total = function total(outCurr) {
+                    return currencyConverter.convert(this.qty * this.cost, this.inCurr, outCurr);
+                };
+                this.pay = function pay() {
+                    window.alert("Thanks!");
+                };
+            }]);
+    angular.module('finance2', [])
+            .factory('currencyConverter', function() {
+                var currencies = ['USD', 'EUR', 'CNY'];
+                var usdToForeignRates = {
+                    USD: 1,
+                    EUR: 0.74,
+                    CNY: 6.09
+                };
+                var convert = function (amount, inCurr, outCurr) {
+                    return amount * usdToForeignRates[outCurr] / usdToForeignRates[inCurr];
+                };
+                //The array first contains the names of the service dependencies that the controller needs. The last entry in the array is the controller constructor function.
+                return {
+                    currencies: currencies,
+                    convert: convert
+                };
+            });
+//***********************************************************
+    angular.module('invoice3', ['finance3'])
+        .controller('InvoiceController', ['currencyConverter', function(currencyConverter) {
+            this.qty = 1;
+            this.cost = 2;
+            this.inCurr = 'EUR';
+            this.currencies = currencyConverter.currencies;
 
-<!--<div ng-app="priceApp" ng-controller="priceCtrl">-->
-    <!--<input type="number" ng-model="quantity">-->
-    <!--<input type="number" ng-model="price">-->
-    <!--<p>{{quantity*price}}</p>-->
-<!--</div>-->
-<!--<script>-->
-    <!--var app = angular.module('priceApp', []);-->
-    <!--app.controller('priceCtrl', function($scope){-->
-        <!--$scope.quantity = 1;-->
-        <!--$scope.price = 2;-->
-    <!--});-->
-<!--</script>-->
-<!--#######################################-->
+            this.total = function total(outCurr) {
+                return currencyConverter.convert(this.qty * this.cost, this.inCurr, outCurr);
+            };
+            this.pay = function pay() {
+                window.alert("Thanks!");
+            };
+        }]);
+    angular.module('finance3', [])
+        .factory('currencyConverter', ['$http', function($http) {
+            var YAHOO_FINANCE_URL_PATTERN =
+                    '//query.yahooapis.com/v1/public/yql?q=select * from '+
+                    'yahoo.finance.xchange where pair in ("PAIRS")&format=json&'+
+                    'env=store://datatables.org/alltableswithkeys&callback=JSON_CALLBACK';
+            var currencies = ['USD', 'EUR', 'CNY'];
+            var usdToForeignRates = {};
+
+            var convert = function (amount, inCurr, outCurr) {
+                return amount * usdToForeignRates[outCurr] / usdToForeignRates[inCurr];
+            };
+
+            var refresh = function() {
+                var url = YAHOO_FINANCE_URL_PATTERN.
+                        replace('PAIRS', 'USD' + currencies.join('","USD'));
+                return $http.jsonp(url).then(function(response) {
+                    var newUsdToForeignRates = {};
+                    angular.forEach(response.data.query.results.rate, function(rate) {
+                        var currency = rate.id.substring(3,6);
+                        newUsdToForeignRates[currency] = window.parseFloat(rate.Rate);
+                    });
+                    usdToForeignRates = newUsdToForeignRates;
+                });
+            };
+
+            refresh();
+
+            return {
+                currencies: currencies,
+                convert: convert
+            };
+        }]);
+
+//    angular.module('invoice1', [])
+//            .controller('InvoiceController', function() {
+//                this.qty = 1;
+//                this.cost = 2;
+//                this.inCurr = 'EUR';
+//                this.currencies = ['USD', 'EUR', 'CNY'];
+//                this.usdToForeignRates = {
+//                    USD: 1,
+//                    EUR: 0.74,
+//                    CNY: 6.09
+//                };
+//
+//                this.total = function total(outCurr) {
+//                    return this.convertCurrency(this.qty * this.cost, this.inCurr, outCurr);
+//                };
+//                this.convertCurrency = function convertCurrency(amount, inCurr, outCurr) {
+//                    return amount * this.usdToForeignRates[outCurr] / this.usdToForeignRates[inCurr];
+//                };
+//                this.pay = function pay() {
+//                    window.alert("Thanks!");
+//                };
+//            });
+
+
+</script>
 </body>
 </html>
